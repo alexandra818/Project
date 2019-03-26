@@ -1,3 +1,4 @@
+import {Request, Response, NectFunction}
 export class Car {
     _model: any;
     constructor(norm: any) {
@@ -14,7 +15,20 @@ export class Car {
           onDelete: 'cascade',
           onUpdate: 'cascade'
         },
-      }, 'A table to store user car model', []];
+      }, 'A table to store user car info', 
+      [
+        { 
+          route: '/get-all-cars',
+        method: 'POST',
+        callback: this.getAllCars,
+        requireToken: true,
+      }
+      ];
+    }
+
+    getAllCars(model:any) {
+      return (req: Request, res:Response, next: NextFunction)
+
     }
   
     set model(model: any) {
