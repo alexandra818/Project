@@ -7,6 +7,7 @@ class Car {
                 make: { type: String, maxlength: 24 },
                 model: { type: String, maxlength: 24 },
                 year: { type: String, maxlength: 24 },
+                mileage: { type: String, maxlength: 24 },
                 user_id: {
                     type: Number,
                     key: 'foreign',
