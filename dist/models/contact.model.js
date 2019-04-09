@@ -8,59 +8,75 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class Car {
+class Contact {
     constructor(norm) {
         this.model = [{
                 id: { type: Number, key: 'primary' },
-                make: { type: String, maxlength: 24 },
-                model: { type: String, maxlength: 24 },
-                year: { type: String, maxlength: 24 },
-                color: { type: String, maxlength: 24 },
-                mileage: { type: String, maxlength: 24 },
-                user_id: {
+                FirstName: { type: String, maxlength: 24 },
+                LastName: { type: String, maxlength: 24 },
+                Rating: { type: String, maxlength: 24 },
+                image_url: { type: String, maxlength: 1000 },
+                // image_url: { type: String, maxlength: 1000},
+                listing_id: {
                     type: Number,
                     key: 'foreign',
-                    references: { table: 'User', foreignKey: 'id' },
+                    references: { table: 'Listing', foreignKey: 'id' },
                     onDelete: 'cascade',
                     onUpdate: 'cascade'
                 },
-            }, 'A table to store car info',
+            }, 'A table to store contact info',
             [
                 {
-                    route: '/get-all-cars',
+                    route: '/get-all-contacts',
                     method: 'POST',
-                    callback: this.getAllCars,
+                    callback: this.getAllContacts,
                     requireToken: true,
                 },
                 {
-                    route: '/get-car-by-id/:id',
+                    route: '/get-contact-by-id/:id',
                     method: 'POST',
-                    callback: this.getCarById,
+                    callback: this.getContactById,
                     requireToken: true,
                 },
                 {
-                    route: '/create-car',
+                    route: '/create-contact',
                     method: 'POST',
-                    callback: this.createCar,
+                    callback: this.createContact,
                     requireToken: true,
                 },
                 {
-                    route: '/update-car/id/:id',
+                    route: '/update-contact/id/:id',
                     method: 'PUT',
-                    callback: this.updateCar,
+                    callback: this.updateContact,
+                    requireToken: true,
+                },
+                {
+                    route: '/delete/id/:id',
+                    method: 'DELETE',
+                    callback: this.deleteContact,
                     requireToken: true,
                 }
             ]];
     }
-    updateCar(model) {
+    deleteContact(model) {
+        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            console.log('req.body===>', req.body);
+            let carCtrl = model.controller;
+            let resp = yield carCtrl.remove(req, null, null);
+            console.log('resp from delete', resp);
+            res.json({ message: 'Success', resp });
+        });
+    }
+    updateContact(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             console.log('req.body===>', req.body);
             let carCtrl = model.controller;
             let resp = yield carCtrl.update(req, null, null);
+            console.log('resp from update', resp);
             res.json({ message: 'Success', resp });
         });
     }
-    createCar(model) {
+    createContact(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             console.log('req.body===>', req.body);
             let carCtrl = model.controller;
@@ -68,7 +84,7 @@ class Car {
             res.json({ message: 'Success', resp });
         });
     }
-    getAllCars(model) {
+    getAllContacts(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             req.body = {
                 get: ['*']
@@ -78,7 +94,7 @@ class Car {
             res.json({ message: 'Success', resp });
         });
     }
-    getCarById(model) {
+    getContactById(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             req.body = {
                 get: ['*'],
@@ -98,4 +114,4 @@ class Car {
         return this._model;
     }
 }
-exports.Car = Car;
+exports.Contact = Contact;

@@ -1,56 +1,57 @@
 import { Request, Response, NextFunction } from 'express'
-export class Car {
+export class Contact {
   _model: any;
   constructor(norm: any) {
     this.model = [{
       id: { type: Number, key: 'primary' },
-      make: { type: String, maxlength: 24 },
-      model: { type: String, maxlength: 24 },
-      year: { type: String, maxlength: 24 },
-      color: { type: String, maxlength: 24 },
-      mileage: { type: String, maxlength: 24 },
-      user_id: {
+      FirstName: { type: String, maxlength: 24 },
+      LastName: { type: String, maxlength: 24 },
+      Rating: { type: String, maxlength: 24 },
+      image_url: { type: String, maxlength: 1000},
+      // image_url: { type: String, maxlength: 1000},
+      
+      listing_id: {
         type: Number,
         key: 'foreign',
-        references: { table: 'User', foreignKey: 'id' },
+        references: { table: 'Listing', foreignKey: 'id' },
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
-    }, 'A table to store car info',
+    }, 'A table to store contact info',
     [
       {
-        route: '/get-all-cars',
+        route: '/get-all-contacts',
         method: 'POST',
-        callback: this.getAllCars,
+        callback: this.getAllContacts,
         requireToken: true,
       },
       {
-        route: '/get-car-by-id/:id',
+        route: '/get-contact-by-id/:id',
         method: 'POST',
-        callback: this.getCarById,
+        callback: this.getContactById,
         requireToken: true,
       },
       {
-        route: '/create-car',
+        route: '/create-contact',
         method: 'POST',
-        callback: this.createCar,
+        callback: this.createContact,
         requireToken: true,
       },
       {
-        route: '/update-car/id/:id',
+        route: '/update-contact/id/:id',
         method: 'PUT',
-        callback: this.updateCar,
+        callback: this.updateContact,
         requireToken: true,
       },
       {
         route: '/delete/id/:id',
         method: 'DELETE',
-        callback: this.deleteCar,
+        callback: this.deleteContact,
         requireToken: true,
       }
     ]];
   }
-  deleteCar(model: any) {
+  deleteContact(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       console.log('req.body===>', req.body);
       let carCtrl = model.controller;
@@ -59,7 +60,7 @@ export class Car {
       res.json({ message: 'Success', resp });
     }
   }
-  updateCar(model: any) {
+  updateContact(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       console.log('req.body===>', req.body);
       let carCtrl = model.controller;
@@ -68,7 +69,7 @@ export class Car {
       res.json({ message: 'Success', resp });
     }
   }
-  createCar(model: any) {
+  createContact(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       console.log('req.body===>', req.body);
       let carCtrl = model.controller;
@@ -76,7 +77,7 @@ export class Car {
       res.json({ message: 'Success', resp });
     }
   }
-  getAllCars(model: any) {
+  getAllContacts(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       req.body = {
         get: ['*']
@@ -87,7 +88,7 @@ export class Car {
     }
   }
 
-  getCarById(model: any) {
+  getContactById(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       req.body = {
         get: ['*'],
